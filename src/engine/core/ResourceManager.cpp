@@ -5,39 +5,46 @@ std::map<std::string, TTF_Font *> ResourceManager::fonts;
 std::map<std::string, Mix_Chunk *> ResourceManager::sounds;
 std::map<std::string, Mix_Music *> ResourceManager::mp3files;
 
-void ResourceManager::loadResources(std::vector<std::string> fileNames) {
-	for (auto file : fileNames) {
-		if (file.find(".ttf") != -1) {
-			TTF_Font * font = TTF_OpenFont(file.c_str(), 36);	// hardcode font size ?
-			if (nullptr == font)
-				throw EngineException(TTF_GetError(), file);
-			fonts[file] = font;
-		}
-		else if (file.find(".wav") != -1) {
-			Mix_Chunk * sound = Mix_LoadWAV(file.c_str());
-			if (nullptr == sound)
-				throw EngineException(Mix_GetError(), file);
-			sounds[file] = sound;
-		}
-		else if (file.find(".mp3") != -1) {
-			Mix_Music * mp3 = Mix_LoadMUS(file.c_str());
-			if (nullptr == mp3)
-				throw EngineException(Mix_GetError(), file);
-			mp3files[file] = mp3;
-		}
-		else if (file.find(".png") != -1 || file.find(".jpg") != -1) {
+SDL_Texture * ResourceManager::loadTexture(std::string file, SDL_Color trans) {
+	SDL_Texture * texture = nullptr;
 
-			
-			/*SDL_Surface * surf = IMG_Load(file.c_str());
-			if (nullptr == surf)
-				throw EngineException(IMG_GetError(), file);
+	SDL_Surface * surf = IMG_Load(file.c_str());
+	if (nullptr == surf)
+		throw EngineException(IMG_GetError(), file);
 
-			textures[file] = GFX::createGLTextureFromSurface(surf);
-			SDL_FreeSurface(surf);
-			if (0 == textures[file])
-				throw EngineException("Failed to create GL texture from surface:", file);*/
-		}
-	}
+	SDL_SetColorKey(surf, SDL_TRUE, SDL_MapRGB(surf->format, trans.r, trans.g, trans.b));
+	
+	texture = GFX::createTextureFromSurface(surf);
+	if (nullptr == texture)
+		throw EngineException(SDL_GetError(), file);
+
+	SDL_FreeSurface(surf);
+
+	return texture;
+}
+
+TTF_Font * ResourceManager::loadFont(std::string file, const int & pt) {
+	TTF_Font * font = TTF_OpenFont(file.c_str(), pt);
+	if (nullptr == font)
+		throw EngineException(TTF_GetError(), file);
+	fonts[file] = font;
+	return font;
+}
+
+Mix_Chunk * ResourceManager::loadSound(std::string file) {
+	Mix_Chunk * sound = Mix_LoadWAV(file.c_str());
+	if (nullptr == sound)
+		throw EngineException(Mix_GetError(), file);
+	sounds[file] = sound;
+	return sound;
+}
+
+Mix_Music * ResourceManager::loadMP3(std::string file) {
+	Mix_Music * mp3 = Mix_LoadMUS(file.c_str());
+	if (nullptr == mp3)
+		throw EngineException(Mix_GetError(), file);
+	mp3files[file] = mp3;
+	return mp3;
 }
 
 void ResourceManager::freeResources() {

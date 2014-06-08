@@ -39,13 +39,6 @@ void PhysicsEngine::registerObject(std::shared_ptr<PhysicsObject> obj) {
 }
 
 void PhysicsEngine::update() {
-	/*for (auto obj : objects) {
-		bool g = isOnPlatform(obj);
-
-		obj->center.x += obj->force.x * 0.016;
-		obj->center.y += obj->force.y * 0.016 - (g ? 9.8 * 0.016 : 0);
-		obj->center.z += obj->force.z * 0.016;
-	}*/
 
 	for (int i = 0; i < objects.size(); ++i) {
 		bool isOnPlatform = false;

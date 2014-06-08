@@ -1,6 +1,8 @@
 #include "GraphicsEngine.h"
 
-GraphicsEngine::GraphicsEngine() : fpsAverage(0), fpsPrevious(0), fpsStart(0), fpsEnd(0) {
+SDL_Renderer * GraphicsEngine::renderer = nullptr;
+
+GraphicsEngine::GraphicsEngine() : fpsAverage(0), fpsPrevious(0), fpsStart(0), fpsEnd(0), drawColor(toSDLColor(0, 0, 0, 255)) {
 	window = SDL_CreateWindow("The X-CUBE 2D Game Engine",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
@@ -19,10 +21,6 @@ GraphicsEngine::GraphicsEngine() : fpsAverage(0), fpsPrevious(0), fpsStart(0), f
 
 	if (TTF_Init() < 0)
 		throw EngineException("Failed to init SDL_ttf", TTF_GetError());
-
-	textureBackground = IMG_Load("res/trans128.png");
-	if (nullptr == textureBackground)
-		throw EngineException("Failed to load texture background", IMG_GetError());
 }
 
 GraphicsEngine::~GraphicsEngine() {
@@ -30,7 +28,7 @@ GraphicsEngine::~GraphicsEngine() {
 	debug("GraphicsEngine::~GraphicsEngine() started");
 #endif
 
-	SDL_FreeSurface(textureBackground);
+	//SDL_FreeSurface(textureBackground);
 	IMG_Quit();
 	TTF_Quit();
 	SDL_DestroyWindow(window);
@@ -74,7 +72,18 @@ void GraphicsEngine::setFullscreen(bool b) {
 }
 
 void GraphicsEngine::setVerticalSync(bool b) {
-	SDL_SetHint(SDL_HINT_RENDER_VSYNC, b ? "1" : "0");
+	if (!SDL_SetHint(SDL_HINT_RENDER_VSYNC, b ? "1" : "0")) {
+		std::cout << "Failed to enable VSYNC" << std::endl;
+		std::cout << SDL_GetError() << std::endl;
+	}
+#ifdef __DEBUG
+	debug("Current VSYNC:", SDL_GetHint(SDL_HINT_RENDER_VSYNC));
+#endif
+}
+
+void GraphicsEngine::setDrawColor(SDL_Color color) {
+	drawColor = color;
+	SDL_SetRenderDrawColor(renderer, drawColor.r, drawColor.g, drawColor.b, 255);	// may need to be adjusted for allowing alpha
 }
 
 void GraphicsEngine::setWindowSize(const int &w, const int &h) {
@@ -105,7 +114,9 @@ Dimension2i GraphicsEngine::getMaximumWindowSize() {
 }
 
 void GraphicsEngine::clearScreen() {
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, drawColor.r, drawColor.g, drawColor.b, 255);	// may need to be adjusted for allowing alpha
 }
 
 void GraphicsEngine::showScreen() {
@@ -140,4 +151,78 @@ void GraphicsEngine::adjustFPSDelay(const Uint32 &delay) {
 
 Uint32 GraphicsEngine::getAverageFPS() {
 	return fpsAverage;
+}
+
+SDL_Texture * GraphicsEngine::createTextureFromSurface(SDL_Surface * surf) {
+	return SDL_CreateTextureFromSurface(renderer, surf);
+}
+
+SDL_Texture * GraphicsEngine::createTextureFromString(const std::string & text, TTF_Font * _font, SDL_Color color) {
+	SDL_Texture * textTexture = nullptr;
+	SDL_Surface * textSurface = TTF_RenderText_Blended(_font, text.c_str(), color);
+	if (textSurface != nullptr) {
+		textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+		SDL_FreeSurface(textSurface);
+	}
+	else {
+		std::cout << "Failed to create texture from string: " << text << std::endl;
+		std::cout << TTF_GetError() << std::endl;
+	}
+
+	return textTexture;
+}
+
+void GraphicsEngine::setDrawScale(const Vector2f & v) {
+	SDL_RenderSetScale(renderer, v.x, v.y);
+}
+
+/* ALL DRAW FUNCTIONS */
+
+void GraphicsEngine::drawRect(SDL_Rect * rect, SDL_Color color) {
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+	SDL_RenderDrawRect(renderer, rect);
+	SDL_SetRenderDrawColor(renderer, drawColor.r, drawColor.g, drawColor.b, 255);
+}
+
+void GraphicsEngine::drawRect(SDL_Rect * rect) {
+	SDL_RenderDrawRect(renderer, rect);
+}
+
+void GraphicsEngine::drawRect(const int &x, const int &y, const int &w, const int &h) {
+	SDL_Rect rect = { x, y, w, h };
+	SDL_RenderDrawRect(renderer, &rect);
+}
+
+void GraphicsEngine::fillRect(SDL_Rect * rect) {
+	SDL_RenderFillRect(renderer, rect);
+}
+
+void GraphicsEngine::fillRect(const int &x, const int &y, const int &w, const int &h) {
+	SDL_Rect rect = { x, y, w, h };
+	SDL_RenderFillRect(renderer, &rect);
+}
+
+void GraphicsEngine::drawPoint(Point2 p) {
+	SDL_RenderDrawPoint(renderer, p.x, p.y);
+}
+
+void GraphicsEngine::drawLine(Point2 p0, Point2 p1) {
+	SDL_RenderDrawLine(renderer, p0.x, p0.y, p1.x, p1.y);
+}
+
+void GraphicsEngine::drawTexture(SDL_Texture * texture, SDL_Rect * src, SDL_Rect * dst, const double & angle, const SDL_Point * center, SDL_RendererFlip flip) {
+	SDL_RenderCopyEx(renderer, texture, src, dst, angle, center, flip);
+}
+
+void GraphicsEngine::drawTexture(SDL_Texture * texture, SDL_Rect * dst, SDL_RendererFlip flip) {
+	SDL_RenderCopyEx(renderer, texture, 0, dst, 0.0, 0, flip);
+}
+
+void GraphicsEngine::drawText(const std::string & text, const int &x, const int &y) {
+	SDL_Texture * textTexture = createTextureFromString(text, font, drawColor);
+	int w, h;
+	SDL_QueryTexture(textTexture, 0, 0, &w, &h);
+	SDL_Rect dst = { x, y, w, h };
+	drawTexture(textTexture, &dst);
+	SDL_DestroyTexture(textTexture);
 }

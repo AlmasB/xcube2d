@@ -43,20 +43,23 @@ inline SDL_Colorf toSDLColorf(SDL_Color color) {
 	return colorf;
 }
 
+inline SDL_Color toSDLColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
+	SDL_Color color = { r, g, b, a };
+	return color;
+}
+
 class GraphicsEngine {
 	friend class XCube2Engine;
 	private:
 		SDL_Window * window;
-		SDL_Renderer * renderer;
+		static SDL_Renderer * renderer;
+		SDL_Color drawColor;
 
 		TTF_Font * font;
-
-		SDL_Surface * textureBackground;
 
 		Uint32 fpsAverage, fpsPrevious, fpsStart, fpsEnd;
 
 		GraphicsEngine();
-		void initGL();
 
 	public:	
 		~GraphicsEngine();
@@ -75,10 +78,18 @@ class GraphicsEngine {
 		*/
 		void showScreen();
 
-		/*void drawText(std::string text, SDL_Color color, float x, float y);
-		
-		void drawSDLSurface(SDL_Surface * surf, float x, float y);
-		void drawSDLSurface(SDL_Surface * surf, float x, float y, int w, int h);*/
+		void drawRect(SDL_Rect *, SDL_Color);
+		void drawRect(SDL_Rect *);
+		void drawRect(const int &x, const int &y, const int &w, const int &h);
+
+		void fillRect(SDL_Rect *);
+		void fillRect(const int &x, const int &y, const int &w, const int &h);
+
+		void drawPoint(Point2);
+		void drawLine(Point2 start, Point2 end);
+		void drawTexture(SDL_Texture *, SDL_Rect * src, SDL_Rect * dst, const double & angle = 0.0, const SDL_Point * center = 0, SDL_RendererFlip flip = SDL_FLIP_NONE);
+		void drawTexture(SDL_Texture *, SDL_Rect * dst, SDL_RendererFlip flip = SDL_FLIP_NONE);
+		void drawText(const std::string & text, const int &x, const int &y);
 
 		void setWindowIcon(const char *);
 		void setWindowSize(const int &, const int &);
@@ -87,10 +98,14 @@ class GraphicsEngine {
 		void setFullscreen(bool);
 		void setVerticalSync(bool);
 
+		void setDrawColor(SDL_Color);
+		void setDrawScale(const Vector2f &);	// not tested
+
 		/**
 		* @return current window's dimension
 		*/
 		Dimension2i getCurrentWindowSize();
+
 		/**
 		* @return current display mode's resolution
 		*         since most displays use native (max) resolution
@@ -103,6 +118,7 @@ class GraphicsEngine {
 		Uint32 getAverageFPS();
 
 		static SDL_Texture * createTextureFromSurface(SDL_Surface *);
+		static SDL_Texture * createTextureFromString(const std::string &, TTF_Font *, SDL_Color);
 };
 
 typedef GraphicsEngine GFX;
