@@ -1,6 +1,6 @@
 #include "AbstractGame.h"
 
-AbstractGame::AbstractGame() : running(true), gameTime(0.0) {
+AbstractGame::AbstractGame() : running(true), paused(false), gameTime(0.0) {
 	std::shared_ptr<XCube2Engine> engine = XCube2Engine::getInstance();
 
 	// engine ready, get subsystems
@@ -46,10 +46,12 @@ int AbstractGame::runMainLoop() {
 		handleKeyEvents();
 		handleMouseEvents();
 
-		update();
-		updatePhysics();
+		if (!paused) {
+			update();
+			updatePhysics();
 
-		gameTime += 0.016;	// 60 times a sec
+			gameTime += 0.016;	// 60 times a sec
+		}
 
 		gfx->clearScreen();
 		render();
