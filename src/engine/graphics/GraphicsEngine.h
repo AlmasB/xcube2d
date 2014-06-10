@@ -87,6 +87,7 @@ class GraphicsEngine {
 
 		void drawPoint(Point2);
 		void drawLine(Point2 start, Point2 end);
+		void drawCircle(Point2 center, const float & radius);
 		void drawTexture(SDL_Texture *, SDL_Rect * src, SDL_Rect * dst, const double & angle = 0.0, const SDL_Point * center = 0, SDL_RendererFlip flip = SDL_FLIP_NONE);
 		void drawTexture(SDL_Texture *, SDL_Rect * dst, SDL_RendererFlip flip = SDL_FLIP_NONE);
 		void drawText(const std::string & text, const int &x, const int &y);

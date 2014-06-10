@@ -210,6 +210,14 @@ void GraphicsEngine::drawLine(Point2 p0, Point2 p1) {
 	SDL_RenderDrawLine(renderer, p0.x, p0.y, p1.x, p1.y);
 }
 
+void GraphicsEngine::drawCircle(Point2 center, const float & radius) {
+	for (float i = 0.0f; i < 2*M_PI; i += PI_OVER_180) {
+		int x = (int)(center.x + radius * cos(i));
+		int y = (int)(center.y + radius * sin(i));
+		SDL_RenderDrawPoint(renderer, x, y);
+	}
+}
+
 void GraphicsEngine::drawTexture(SDL_Texture * texture, SDL_Rect * src, SDL_Rect * dst, const double & angle, const SDL_Point * center, SDL_RendererFlip flip) {
 	SDL_RenderCopyEx(renderer, texture, src, dst, angle, center, flip);
 }
