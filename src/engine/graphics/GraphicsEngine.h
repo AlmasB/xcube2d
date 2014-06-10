@@ -78,16 +78,17 @@ class GraphicsEngine {
 		*/
 		void showScreen();
 
-		void drawRect(SDL_Rect *, SDL_Color);
+		void drawRect(SDL_Rect *, const SDL_Color &);
 		void drawRect(SDL_Rect *);
 		void drawRect(const int &x, const int &y, const int &w, const int &h);
 
 		void fillRect(SDL_Rect *);
 		void fillRect(const int &x, const int &y, const int &w, const int &h);
 
-		void drawPoint(Point2);
-		void drawLine(Point2 start, Point2 end);
-		void drawCircle(Point2 center, const float & radius);
+		void drawPoint(const Point2 &);
+		void drawLine(const Point2 & start, const Point2 & end);
+		void drawCircle(const Point2 & center, const float & radius);
+		void drawEllipse(const Point2 & center, const float & radiusX, const float & radiusY);
 		void drawTexture(SDL_Texture *, SDL_Rect * src, SDL_Rect * dst, const double & angle = 0.0, const SDL_Point * center = 0, SDL_RendererFlip flip = SDL_FLIP_NONE);
 		void drawTexture(SDL_Texture *, SDL_Rect * dst, SDL_RendererFlip flip = SDL_FLIP_NONE);
 		void drawText(const std::string & text, const int &x, const int &y);
@@ -99,7 +100,7 @@ class GraphicsEngine {
 		void setFullscreen(bool);
 		void setVerticalSync(bool);
 
-		void setDrawColor(SDL_Color);
+		void setDrawColor(const SDL_Color &);
 		void setDrawScale(const Vector2f &);	// not tested
 
 		/**

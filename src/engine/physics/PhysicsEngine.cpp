@@ -40,12 +40,12 @@ void PhysicsEngine::registerObject(std::shared_ptr<PhysicsObject> obj) {
 
 void PhysicsEngine::update() {
 
-	for (int i = 0; i < objects.size(); ++i) {
+	/*for (unsigned int i = 0; i < objects.size(); ++i) {
 		bool isOnPlatform = false;
 		std::shared_ptr<PhysicsObject> obj = objects[i];
 
 		if (obj->getCenter().y - obj->getHalfLengthY() > 0) {
-			for (int j = 0; j < objects.size(); ++j) {
+			for (unsigned int j = 0; j < objects.size(); ++j) {
 				if (i == j) continue;
 
 				std::shared_ptr<PhysicsObject> other = objects[j];
@@ -104,7 +104,7 @@ void PhysicsEngine::update() {
 			obj->force.y = 0;
 		if (abs(obj->force.z) < 0.1)
 			obj->force.z = 0;
-	}
+	}*/
 }
 
 bool PhysicsEngine::isOnPlatform(std::shared_ptr<PhysicsObject> obj) {

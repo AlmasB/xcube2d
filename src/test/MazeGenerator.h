@@ -1,5 +1,5 @@
-#ifndef __X__D__
-#define __X__D__
+#ifndef __MAZE_GEN_H__
+#define __MAZE_GEN_H__
 
 #include <cstdlib>
 #include <iostream>

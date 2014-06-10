@@ -17,7 +17,8 @@ struct GameKey {
 class TestGame : public AbstractGame {
 	private:
 		std::shared_ptr<SDL_Rect> box;
-		Vector2f velocity;
+		std::shared_ptr<SDL_Rect> light;
+		Vector2i velocity;
 
 		MazeGenerator * gen;
 

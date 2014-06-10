@@ -10,7 +10,7 @@
 	a printDebug() function, which prints debug info to std out
 	Also debug info will be shown at crucial stages
 
-	Uncomment the following to remove debug code from release build
+	Comment out the following to remove debug code from release build
 */
 #define __DEBUG
 

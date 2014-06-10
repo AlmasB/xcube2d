@@ -305,6 +305,14 @@ struct Vector2f {
 	Vector2f(float x, float y) : x(x), y(y) {}
 };
 
+struct Vector2i {
+	int x;
+	int y;
+
+	Vector2i() {}
+	Vector2i(int x, int y) : x(x), y(y) {}
+};
+
 struct Point2 {
 	int x, y;
 

@@ -3,8 +3,9 @@
 
 #include <SDL2/SDL.h>
 
-#define __SECOND 1000
-#define __MINUTE (60*__SECOND)
+static const int SECOND = 1000;
+static const int MINUTE = 60 * SECOND;
+static const int HOUR = 60 * MINUTE;
 
 /**
  * Relative timer, used to tell how much time has passed

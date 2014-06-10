@@ -10,13 +10,19 @@ TestGame::TestGame() : AbstractGame(), score(0), lives(3), keys(5), gameWon(fals
 	box->x = 5;
 	box->y = 5;
 
+	light = std::make_shared<SDL_Rect>();
+	light->w = 150;
+	light->h = 150;
+	light->x = box->x - 60;
+	light->y = box->y - 60;
+
 	gfx->setVerticalSync(true);
 
 	gen = new MazeGenerator(10, 10);
 	gen->generateMaze(0, 0);
 
 
-	float dist = 40.0f;
+	int dist = 40;
 
 	for (int i = 0; i < gen->y; ++i) {
 		for (int j = 0; j < gen->x; ++j) {
@@ -120,7 +126,9 @@ void TestGame::update() {
 		}
 	}
 
-	velocity = Vector2f(0, 0);
+	velocity = Vector2i(0, 0);
+	light->x = box->x - 60;
+	light->y = box->y - 60;
 
 	if (keys == 0)
 		gameWon = true;
@@ -130,7 +138,8 @@ void TestGame::update() {
 void TestGame::render() {
 	gfx->setDrawColor(SDL_COLOR_WHITE);
 	for (auto line : lines)
-		gfx->drawLine(line->start, line->end);
+		if (isColliding(light.get(), line))
+			gfx->drawLine(line->start, line->end);
 	
 
 	gfx->setDrawColor(SDL_COLOR_RED);
@@ -138,8 +147,10 @@ void TestGame::render() {
 
 	gfx->setDrawColor(SDL_COLOR_YELLOW);
 	for (auto key : points)
-		if (key->alive)
+		if (key->alive && isColliding(light.get(), key->pos))
 			gfx->drawPoint(key->pos);
+
+	gfx->drawEllipse(Point2(500, 500), 50.0f, 100.0f);
 
 	// UI
 	gfx->setDrawColor(SDL_COLOR_AQUA);
