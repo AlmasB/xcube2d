@@ -27,7 +27,6 @@ class EventEngine {
 		SDL_Event event;
 		bool keys[Key::LAST];
 		bool buttons[Mouse::BTN_LAST];
-		Point2 mouseDPos;
 
 		void updateKeys(const SDL_Keycode &, bool);
 
@@ -68,6 +67,11 @@ class EventEngine {
 		*
 		*/
 		Point2 getMouseDPos();
+
+		/**
+		* Returns current mouse position relative to the window
+		*/
+		Point2 getMousePos();
 
 		/**
 		* Starts executing android "joystick" listener
