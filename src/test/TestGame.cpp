@@ -75,6 +75,10 @@ TestGame::TestGame() : AbstractGame(), score(0), lives(3), keys(5), gameWon(fals
 	}
 
 	keys = 5;
+
+	//SDL_assert_release(1 == 0);
+
+	
 }
 
 TestGame::~TestGame() {
@@ -130,9 +134,9 @@ void TestGame::update() {
 	light->x = box->x - 60;
 	light->y = box->y - 60;
 
-	if (keys == 0)
+	if (keys == 0) {
 		gameWon = true;
-
+	}
 }
 
 void TestGame::render() {
