@@ -1,7 +1,7 @@
 #include "TestGame.h"
 
 TestGame::TestGame() : AbstractGame(), score(0), lives(3), keys(5), gameWon(false) {
-	TTF_Font * font = ResourceManager::loadFont("res/fonts/3dlet.ttf", 72);
+	TTF_Font * font = ResourceManager::loadFont("res/fonts/testfont.ttf", 72);
 	gfx->useFont(font);
 
 	box = std::make_shared<SDL_Rect>();
@@ -170,7 +170,7 @@ bool TestGame::isColliding(const SDL_Rect * rect, std::shared_ptr<Line> line) {
 	return SDL_IntersectRectAndLine(rect, &x1, &y1, &x2, &y2) == 1;
 }
 
-bool TestGame::isColliding(const SDL_Rect * rect, Point2 p) {
+bool TestGame::isColliding(const SDL_Rect * rect, const Point2 & p) {
 	Rectangle2 r = { rect->x, rect->y, rect->w, rect->h };
 	return r.contains(p);
 }

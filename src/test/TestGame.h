@@ -26,7 +26,7 @@ class TestGame : public AbstractGame {
 		std::vector<std::shared_ptr<GameKey>> points;
 
 		bool isColliding(const SDL_Rect *, std::shared_ptr<Line>);
-		bool isColliding(const SDL_Rect *, Point2);
+		bool isColliding(const SDL_Rect *, const Point2 &);
 
 		/* GAMEPLAY */
 		int score, keys, lives;
