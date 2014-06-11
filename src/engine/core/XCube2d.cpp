@@ -43,7 +43,7 @@ XCube2Engine::XCube2Engine() {
 #endif
 
 	std::cout << "Logical CPU cores: " << SDL_GetCPUCount() << std::endl;
-	std::cout << "System RAM: " << SDL_GetSystemRAM() << " MB" << std::endl; // will be available in SDL 2.0.1
+	std::cout << "System RAM: " << SDL_GetSystemRAM() << " MB" << std::endl;
 	std::cout << "Running on: " << SDL_GetPlatform() << std::endl;
 
 	SDL_version compiled, linked;
