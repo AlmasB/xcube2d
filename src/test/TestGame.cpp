@@ -75,10 +75,6 @@ TestGame::TestGame() : AbstractGame(), score(0), lives(3), keys(5), gameWon(fals
 	}
 
 	keys = 5;
-
-	//SDL_assert_release(1 == 0);
-
-	
 }
 
 TestGame::~TestGame() {
@@ -151,15 +147,14 @@ void TestGame::render() {
 
 	gfx->setDrawColor(SDL_COLOR_YELLOW);
 	for (auto key : points)
-		if (key->alive && isColliding(light.get(), key->pos))
-			gfx->drawPoint(key->pos);
+	if (key->alive && isColliding(light.get(), key->pos))
+		gfx->drawPoint(key->pos);
+}
 
-	gfx->drawEllipse(Point2(500, 500), 50.0f, 100.0f);
-
-	// UI
+void TestGame::renderUI() {
 	gfx->setDrawColor(SDL_COLOR_AQUA);
 	std::string scoreStr = std::to_string(score);
-	gfx->drawText(scoreStr, 780 - scoreStr.length()*50, 25);
+	gfx->drawText(scoreStr, 780 - scoreStr.length() * 50, 25);
 
 	if (gameWon)
 		gfx->drawText("YOU WON DEMO LOL", 50, 500);

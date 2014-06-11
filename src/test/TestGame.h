@@ -35,6 +35,7 @@ class TestGame : public AbstractGame {
 		void handleKeyEvents();
 		void update();
 		void render();
+		void renderUI();
 	public:
 		TestGame();
 		~TestGame();
