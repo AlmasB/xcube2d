@@ -8,6 +8,8 @@
 
 static const float DEFAULT_GRAVITY = -1.0f;
 
+class PhysicsObject;
+
 class PhysicsEngine {
 	friend class XCube2Engine;
 	friend class PhysicsObject;
