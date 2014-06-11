@@ -2,7 +2,7 @@
 
 Dir::Dir() {}
 
-Dir::Dir(Dir & other) : bit(other.bit), dx(other.dx), dy(other.dy),
+Dir::Dir(const Dir & other) : bit(other.bit), dx(other.dx), dy(other.dy),
 opposite(other.opposite) {}
 
 MazeGenerator::MazeGenerator(const int & x, const int & y) : x(x), y(y) {

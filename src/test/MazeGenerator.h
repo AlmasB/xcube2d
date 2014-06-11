@@ -11,7 +11,7 @@ class Dir;
 class Dir {
 	public:
 		Dir();
-		Dir(Dir &);
+		Dir(const Dir &);
 		int bit, dx, dy;
 		Dir * opposite;
 };
