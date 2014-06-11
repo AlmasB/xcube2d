@@ -93,6 +93,9 @@ class GraphicsEngine {
 		void drawTexture(SDL_Texture *, SDL_Rect * dst, SDL_RendererFlip flip = SDL_FLIP_NONE);
 		void drawText(const std::string & text, const int &x, const int &y);
 
+		void setDrawColor(const SDL_Color &);
+		void setDrawScale(const Vector2f &);	// not tested
+
 		void setWindowIcon(const char *);
 		void setWindowSize(const int &, const int &);
 		void setWindowTitle(const char *title);
@@ -100,8 +103,16 @@ class GraphicsEngine {
 		void setFullscreen(bool);
 		void setVerticalSync(bool);
 
-		void setDrawColor(const SDL_Color &);
-		void setDrawScale(const Vector2f &);	// not tested
+		/**
+		* Shows a message box with given info and title
+		* 
+		* Note: this function will block the execution on
+		* thread where it was called
+		*
+		* @param info - the info to be shown
+		* @param title - title of the message box, may be left out
+		*/
+		void showInfoMessageBox(const std::string & info, const std::string & title = "");
 
 		/**
 		* @return current window's dimension

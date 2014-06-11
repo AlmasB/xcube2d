@@ -113,6 +113,10 @@ Dimension2i GraphicsEngine::getMaximumWindowSize() {
 	}
 }
 
+void GraphicsEngine::showInfoMessageBox(const std::string & info, const std::string & title) {
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, title.c_str(), info.c_str(), window);
+}
+
 void GraphicsEngine::clearScreen() {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
