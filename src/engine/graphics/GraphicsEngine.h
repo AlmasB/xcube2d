@@ -78,6 +78,8 @@ class GraphicsEngine {
 		*/
 		void showScreen();
 
+		void drawRect(const Rectangle2 & rect);
+
 		void drawRect(SDL_Rect *, const SDL_Color &);
 		void drawRect(SDL_Rect *);
 		void drawRect(const int &x, const int &y, const int &w, const int &h);
@@ -96,7 +98,10 @@ class GraphicsEngine {
 		void setDrawColor(const SDL_Color &);
 		void setDrawScale(const Vector2f &);	// not tested
 
-		void setWindowIcon(const char *);
+		/**
+		* @param fileName - name of the icon file
+		*/
+		void setWindowIcon(const char * fileName);
 		void setWindowSize(const int &, const int &);
 		void setWindowTitle(const char *title);
 		void setWindowTitle(const std::string &);
