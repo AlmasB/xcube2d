@@ -48,6 +48,21 @@ inline SDL_Color toSDLColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
 	return color;
 }
 
+// mapped to TTF_STYLE_* defines
+enum FontStyle {NONE = 0x00, BOLD = 0x01, ITALIC = 0x02, UNDERLINE = 0x04, STRIKETHROUGH = 0x08};
+
+class Font {
+	private:
+		TTF_Font * internalFont;
+		std::string name;
+	public:
+		Font(const std::string &, const int & ptSize);
+		~Font();
+
+		void setStyle(FontStyle);
+		TTF_Font * getTTF() const;
+};
+
 class GraphicsEngine {
 	friend class XCube2Engine;
 	private:
@@ -55,6 +70,7 @@ class GraphicsEngine {
 		static SDL_Renderer * renderer;
 		SDL_Color drawColor;
 
+		static TTF_Font * defaultFont;
 		TTF_Font * font;
 
 		Uint32 fpsAverage, fpsPrevious, fpsStart, fpsEnd;
@@ -63,8 +79,6 @@ class GraphicsEngine {
 
 	public:	
 		~GraphicsEngine();
-
-		void useFont(TTF_Font * font);
 
 		/**
 		* Clears everything on the screen
@@ -97,6 +111,7 @@ class GraphicsEngine {
 		void drawTexture(SDL_Texture *, SDL_Rect * dst, SDL_RendererFlip flip = SDL_FLIP_NONE);
 		void drawText(const std::string & text, const int &x, const int &y);
 
+		void setFont(const Font &);
 		void setDrawColor(const SDL_Color &);
 		void setDrawScale(const Vector2f &);	// not tested
 

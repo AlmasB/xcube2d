@@ -17,6 +17,8 @@ class TestGame : public AbstractGame {
 
 		Vector2i velocity;
 
+		Font gameFont;
+
 		MazeGenerator * gen;
 
 		std::vector<std::shared_ptr<Line2i>> lines;

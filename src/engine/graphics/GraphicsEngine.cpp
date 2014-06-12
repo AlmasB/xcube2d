@@ -1,8 +1,38 @@
 #include "GraphicsEngine.h"
 
 SDL_Renderer * GraphicsEngine::renderer = nullptr;
+TTF_Font * GraphicsEngine::defaultFont = nullptr;
 
-GraphicsEngine::GraphicsEngine() : fpsAverage(0), fpsPrevious(0), fpsStart(0), fpsEnd(0), drawColor(toSDLColor(0, 0, 0, 255)) {
+/* FONT */
+
+Font::Font(const std::string & fileName, const int & pt) {
+	internalFont = TTF_OpenFont(fileName.c_str(), pt);
+	if (nullptr == internalFont)
+		throw EngineException(TTF_GetError(), fileName);
+
+	name = fileName;
+}
+
+Font::~Font() {
+	TTF_CloseFont(internalFont);	// TTF checks for nullptr
+#ifdef __DEBUG
+	debug("Font freed: ", name.c_str());
+#endif
+}
+
+void Font::setStyle(FontStyle style) {
+	TTF_SetFontStyle(internalFont, style);
+}
+
+TTF_Font * Font::getTTF() const {
+	return internalFont;
+}
+
+/* GRAPHICS ENGINE */
+
+GraphicsEngine::GraphicsEngine() : fpsAverage(0), fpsPrevious(0), fpsStart(0), fpsEnd(0),
+	drawColor(toSDLColor(0, 0, 0, 255)) {
+
 	window = SDL_CreateWindow("The X-CUBE 2D Game Engine",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
@@ -21,11 +51,23 @@ GraphicsEngine::GraphicsEngine() : fpsAverage(0), fpsPrevious(0), fpsStart(0), f
 
 	if (TTF_Init() < 0)
 		throw EngineException("Failed to init SDL_ttf", TTF_GetError());
+
+	defaultFont = TTF_OpenFont("res/fonts/arial.ttf", 36);
+
+	if (nullptr == defaultFont)
+		throw EngineException("Couldn't load default font - res/fonts/arial.ttf", TTF_GetError());
+
+	font = defaultFont;
 }
 
 GraphicsEngine::~GraphicsEngine() {
 #ifdef __DEBUG
 	debug("GraphicsEngine::~GraphicsEngine() started");
+#endif
+
+	TTF_CloseFont(defaultFont);
+#ifdef __DEBUG
+	debug("Default font freed");
 #endif
 
 	IMG_Quit();
@@ -126,15 +168,8 @@ void GraphicsEngine::showScreen() {
 	SDL_RenderPresent(renderer);
 }
 
-void GraphicsEngine::useFont(TTF_Font * _font) {
-	if (nullptr == _font) {
-#ifdef __DEBUG
-		debug("GraphicsEngine::useFont()", "font is null");
-#endif
-		return;
-	}
-
-	font = _font;
+void GraphicsEngine::setFont(const Font & _font) {
+	font = _font.getTTF();
 }
 
 void GraphicsEngine::setFrameStart() {
@@ -161,6 +196,13 @@ SDL_Texture * GraphicsEngine::createTextureFromSurface(SDL_Surface * surf) {
 }
 
 SDL_Texture * GraphicsEngine::createTextureFromString(const std::string & text, TTF_Font * _font, SDL_Color color) {
+	if (nullptr == _font) {	// drop to default font if nullptr
+		_font = defaultFont;
+#ifdef __DEBUG
+		debug("GraphicsEngine::createTextureFromString() - _font was null. Switched to default");
+#endif
+	}
+
 	SDL_Texture * textTexture = nullptr;
 	SDL_Surface * textSurface = TTF_RenderText_Blended(_font, text.c_str(), color);
 	if (textSurface != nullptr) {
