@@ -28,7 +28,6 @@ GraphicsEngine::~GraphicsEngine() {
 	debug("GraphicsEngine::~GraphicsEngine() started");
 #endif
 
-	//SDL_FreeSurface(textureBackground);
 	IMG_Quit();
 	TTF_Quit();
 	SDL_DestroyWindow(window);
@@ -73,7 +72,7 @@ void GraphicsEngine::setFullscreen(bool b) {
 
 void GraphicsEngine::setVerticalSync(bool b) {
 	if (!SDL_SetHint(SDL_HINT_RENDER_VSYNC, b ? "1" : "0")) {
-		std::cout << "Failed to enable VSYNC" << std::endl;
+		std::cout << "Failed to set VSYNC" << std::endl;
 		std::cout << SDL_GetError() << std::endl;
 	}
 #ifdef __DEBUG
@@ -109,7 +108,7 @@ Dimension2i GraphicsEngine::getMaximumWindowSize() {
 	else {
 		std::cout << "Failed to get window data" << std::endl;
 		std::cout << "GraphicsEngine::getMaximumWindowSize() -> return (0, 0)" << std::endl;
-		return Dimension2i(0, 0);
+		return Dimension2i();
 	}
 }
 
@@ -181,9 +180,16 @@ void GraphicsEngine::setDrawScale(const Vector2f & v) {
 }
 
 /* ALL DRAW FUNCTIONS */
+/* overloads explicitly call SDL funcs for better performance hopefully */
 
 void GraphicsEngine::drawRect(const Rectangle2 & rect) {
 	SDL_RenderDrawRect(renderer, &rect.getSDLRect());
+}
+
+void GraphicsEngine::drawRect(const Rectangle2 & rect, const SDL_Color & color) {
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+	SDL_RenderDrawRect(renderer, &rect.getSDLRect());
+	SDL_SetRenderDrawColor(renderer, drawColor.r, drawColor.g, drawColor.b, 255);
 }
 
 void GraphicsEngine::drawRect(SDL_Rect * rect, const SDL_Color & color) {
@@ -212,6 +218,10 @@ void GraphicsEngine::fillRect(const int &x, const int &y, const int &w, const in
 
 void GraphicsEngine::drawPoint(const Point2 & p) {
 	SDL_RenderDrawPoint(renderer, p.x, p.y);
+}
+
+void GraphicsEngine::drawLine(const Line2i & line) {
+	SDL_RenderDrawLine(renderer, line.start.x, line.start.y, line.end.x, line.end.y);
 }
 
 void GraphicsEngine::drawLine(const Point2 & p0, const Point2 & p1) {

@@ -21,11 +21,11 @@ static const SDL_Color SDL_COLOR_YELLOW = { 0xFF, 0xFF, 0 };
 static const SDL_Color SDL_COLOR_RED	= { 0xFF, 0, 0 };
 static const SDL_Color SDL_COLOR_GREEN	= { 0, 0xFF, 0 };
 static const SDL_Color SDL_COLOR_BLUE	= { 0, 0, 0xFF };
-static const SDL_Color SDL_COLOR_BLACK = { 0, 0, 0 };
-static const SDL_Color SDL_COLOR_WHITE = { 0xFF, 0xFF, 0xFF };
-static const SDL_Color SDL_COLOR_AQUA = { 0, 0xFF, 0xFF };
+static const SDL_Color SDL_COLOR_BLACK  = { 0, 0, 0 };
+static const SDL_Color SDL_COLOR_WHITE  = { 0xFF, 0xFF, 0xFF };
+static const SDL_Color SDL_COLOR_AQUA   = { 0, 0xFF, 0xFF };
 static const SDL_Color SDL_COLOR_ORANGE = { 0xFF, 0xA5, 0 };
-static const SDL_Color SDL_COLOR_PINK = { 0xFF, 0xC0, 0xCB };
+static const SDL_Color SDL_COLOR_PINK   = { 0xFF, 0xC0, 0xCB };
 static const SDL_Color SDL_COLOR_PURPLE = { 0x80, 0, 0x80 };
 static const SDL_Color SDL_COLOR_VIOLET = { 0xEE, 0x82, 0xEE };
 
@@ -78,7 +78,8 @@ class GraphicsEngine {
 		*/
 		void showScreen();
 
-		void drawRect(const Rectangle2 & rect);
+		void drawRect(const Rectangle2 &);
+		void drawRect(const Rectangle2 &, const SDL_Color &);
 
 		void drawRect(SDL_Rect *, const SDL_Color &);
 		void drawRect(SDL_Rect *);
@@ -88,6 +89,7 @@ class GraphicsEngine {
 		void fillRect(const int &x, const int &y, const int &w, const int &h);
 
 		void drawPoint(const Point2 &);
+		void drawLine(const Line2i &);
 		void drawLine(const Point2 & start, const Point2 & end);
 		void drawCircle(const Point2 & center, const float & radius);
 		void drawEllipse(const Point2 & center, const float & radiusX, const float & radiusY);

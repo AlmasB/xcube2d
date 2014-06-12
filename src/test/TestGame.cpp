@@ -1,7 +1,7 @@
 #include "TestGame.h"
 
 TestGame::TestGame() : AbstractGame(), score(0), lives(3), keys(5), gameWon(false), box(5, 5, 30, 30), light(0, 0, 150, 150) {
-	TTF_Font * font = ResourceManager::loadFont("res/fonts/testfont.ttf", 72);
+	TTF_Font * font = ResourceManager::loadFont("res/fonts/arial.ttf", 72);
 	gfx->useFont(font);
 	gfx->setVerticalSync(true);
 
@@ -128,5 +128,5 @@ void TestGame::renderUI() {
 	gfx->drawText(scoreStr, 780 - scoreStr.length() * 50, 25);
 
 	if (gameWon)
-		gfx->drawText("YOU WON DEMO LOL", 50, 500);
+		gfx->drawText("YOU WON", 250, 500);
 }
