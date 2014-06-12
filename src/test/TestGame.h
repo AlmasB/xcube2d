@@ -5,10 +5,6 @@
 
 #include "MazeGenerator.h"
 
-struct Line {
-	Point2 start, end;
-};
-
 struct GameKey {
 	Point2 pos;
 	bool alive;
@@ -16,17 +12,15 @@ struct GameKey {
 
 class TestGame : public AbstractGame {
 	private:
-		std::shared_ptr<SDL_Rect> box;
-		std::shared_ptr<SDL_Rect> light;
+		Rect box;
+		Rect light;
+
 		Vector2i velocity;
 
 		MazeGenerator * gen;
 
-		std::vector<std::shared_ptr<Line>> lines;
+		std::vector<std::shared_ptr<Line2i>> lines;
 		std::vector<std::shared_ptr<GameKey>> points;
-
-		bool isColliding(const SDL_Rect *, std::shared_ptr<Line>);
-		bool isColliding(const SDL_Rect *, const Point2 &);
 
 		/* GAMEPLAY */
 		int score, keys, lives;

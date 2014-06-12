@@ -1,21 +1,8 @@
 #include "TestGame.h"
 
-TestGame::TestGame() : AbstractGame(), score(0), lives(3), keys(5), gameWon(false) {
+TestGame::TestGame() : AbstractGame(), score(0), lives(3), keys(5), gameWon(false), box(5, 5, 30, 30), light(0, 0, 150, 150) {
 	TTF_Font * font = ResourceManager::loadFont("res/fonts/testfont.ttf", 72);
 	gfx->useFont(font);
-
-	box = std::make_shared<SDL_Rect>();
-	box->w = 30;
-	box->h = 30;
-	box->x = 5;
-	box->y = 5;
-
-	light = std::make_shared<SDL_Rect>();
-	light->w = 150;
-	light->h = 150;
-	light->x = box->x - 60;
-	light->y = box->y - 60;
-
 	gfx->setVerticalSync(true);
 
 	gen = new MazeGenerator(10, 10);
@@ -25,26 +12,20 @@ TestGame::TestGame() : AbstractGame(), score(0), lives(3), keys(5), gameWon(fals
 	int dist = 40;
 
 	for (int i = 0; i < gen->y; ++i) {
-		for (int j = 0; j < gen->x; ++j) {
-			if ((gen->maze[j][i] & 1) == 0) {
-				std::shared_ptr<Line> line = std::make_shared<Line>();
-				line->start = Point2(j*dist, i * dist);
-				line->end = Point2(j*dist + dist, i * dist);
 
-				lines.push_back(line);
+		int y = i * dist;
+
+		for (int j = 0; j < gen->x; ++j) {
+
+			int x = j * dist;
+
+			if ((gen->maze[j][i] & 1) == 0) {
+				lines.push_back(std::make_shared<Line2i>(Point2(x, y), Point2(x+dist, y)));
 			}
-				
-			//gfx->drawLine(Point2(j*dist, i * dist), Point2(j*dist + dist, i * dist));
 
 			if ((gen->maze[j][i] & 8) == 0) {
-				std::shared_ptr<Line> line = std::make_shared<Line>();
-				line->start = Point2(j*dist, i * dist);
-				line->end = Point2(j*dist, i * dist + dist);
-
-				lines.push_back(line);
+				lines.push_back(std::make_shared<Line2i>(Point2(x, y), Point2(x, y+dist)));
 			}
-
-			//gfx->drawLine(Point2(j*dist, i * dist), Point2(j*dist, i * dist + dist));
 
 			if (keys > 0 && getRandom(0, 100) <= 5) {
 				std::shared_ptr<GameKey> k = std::make_shared<GameKey>();
@@ -55,23 +36,12 @@ TestGame::TestGame() : AbstractGame(), score(0), lives(3), keys(5), gameWon(fals
 			}
 		}
 
-		std::shared_ptr<Line> line = std::make_shared<Line>();
-		line->start = Point2(gen->x * dist, i * dist);
-		line->end = Point2(gen->x * dist, i * dist + dist);
-
-		lines.push_back(line);
-
-		//gfx->drawLine(Point2(gen->x * dist, i * dist), Point2(gen->x * dist, i * dist + dist));
+		lines.push_back(std::make_shared<Line2i>(Point2(gen->x*dist, y), Point2(gen->x*dist, y + dist)));
 	}
 
 	for (int j = 0; j < gen->x; j++) {
-		std::shared_ptr<Line> line = std::make_shared<Line>();
-		line->start = Point2(j * dist, gen->y * dist);
-		line->end = Point2(j * dist + dist, gen->y * dist);
-
-		lines.push_back(line);
-
-		//gfx->drawLine(Point2(j * dist, gen->y * dist), Point2(j * dist + dist, gen->y * dist));
+		int x = j * dist;
+		lines.push_back(std::make_shared<Line2i>(Point2(x, gen->y * dist), Point2(x + dist, gen->y * dist)));
 	}
 
 	keys = 5;
@@ -102,24 +72,24 @@ void TestGame::handleKeyEvents() {
 }
 
 void TestGame::update() {
-	box->x += velocity.x;
+	box.x += velocity.x;
 	for (auto line : lines) {
-		if (isColliding(box.get(), line)) {
-			box->x -= velocity.x;
+		if (box.intersects(*line)) {
+			box.x -= velocity.x;
 			break;
 		}
 	}
 
-	box->y += velocity.y;
+	box.y += velocity.y;
 	for (auto line : lines) {
-		if (isColliding(box.get(), line)) {
-			box->y -= velocity.y;
+		if (box.intersects(*line)) {
+			box.y -= velocity.y;
 			break;
 		}
 	}
 
 	for (auto key : points) {
-		if (key->alive && isColliding(box.get(), key->pos)) {
+		if (key->alive && box.contains(key->pos)) {
 			score += 200;
 			key->alive = false;
 			keys--;
@@ -127,8 +97,9 @@ void TestGame::update() {
 	}
 
 	velocity = Vector2i(0, 0);
-	light->x = box->x - 60;
-	light->y = box->y - 60;
+
+	light.x = box.x - 60;
+	light.y = box.y - 60;
 
 	if (keys == 0) {
 		gameWon = true;
@@ -138,17 +109,17 @@ void TestGame::update() {
 void TestGame::render() {
 	gfx->setDrawColor(SDL_COLOR_WHITE);
 	for (auto line : lines)
-		if (isColliding(light.get(), line))
+		if (light.intersects(*line))
 			gfx->drawLine(line->start, line->end);
 	
 
 	gfx->setDrawColor(SDL_COLOR_RED);
-	gfx->drawRect(box.get());
+	gfx->drawRect(box);
 
 	gfx->setDrawColor(SDL_COLOR_YELLOW);
 	for (auto key : points)
-	if (key->alive && isColliding(light.get(), key->pos))
-		gfx->drawPoint(key->pos);
+		if (key->alive && light.contains(key->pos))
+			gfx->drawPoint(key->pos);
 }
 
 void TestGame::renderUI() {
@@ -158,14 +129,4 @@ void TestGame::renderUI() {
 
 	if (gameWon)
 		gfx->drawText("YOU WON DEMO LOL", 50, 500);
-}
-
-bool TestGame::isColliding(const SDL_Rect * rect, std::shared_ptr<Line> line) {
-	int x1 = line->start.x, y1 = line->start.y, x2 = line->end.x, y2 = line->end.y;
-	return SDL_IntersectRectAndLine(rect, &x1, &y1, &x2, &y2) == 1;
-}
-
-bool TestGame::isColliding(const SDL_Rect * rect, const Point2 & p) {
-	Rectangle2 r = { rect->x, rect->y, rect->w, rect->h };
-	return r.contains(p);
 }
