@@ -1,7 +1,6 @@
 #include "TestGame.h"
 
-TestGame::TestGame() : AbstractGame(), score(0), lives(3), keys(5), gameWon(false), box(5, 5, 30, 30), light(0, 0, 150, 150),
-	gameFont("res/fonts/3dlet.ttf", 72) {
+TestGame::TestGame() : AbstractGame(), score(0), lives(3), keys(5), gameWon(false), box(5, 5, 30, 30), light(0, 0, 150, 150) {
 
 
 	gfx->setVerticalSync(true);
