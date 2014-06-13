@@ -225,12 +225,14 @@ void GraphicsEngine::setDrawScale(const Vector2f & v) {
 /* overloads explicitly call SDL funcs for better performance hopefully */
 
 void GraphicsEngine::drawRect(const Rectangle2 & rect) {
-	SDL_RenderDrawRect(renderer, &rect.getSDLRect());
+    SDL_Rect tmp = rect.getSDLRect();
+	SDL_RenderDrawRect(renderer, &tmp);
 }
 
 void GraphicsEngine::drawRect(const Rectangle2 & rect, const SDL_Color & color) {
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-	SDL_RenderDrawRect(renderer, &rect.getSDLRect());
+    SDL_Rect tmp = rect.getSDLRect();
+	SDL_RenderDrawRect(renderer, &tmp);
 	SDL_SetRenderDrawColor(renderer, drawColor.r, drawColor.g, drawColor.b, 255);
 }
 
