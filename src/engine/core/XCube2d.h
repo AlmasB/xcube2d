@@ -32,7 +32,7 @@
 #include "Timer.h"
 
 #define _ENGINE_VERSION_MAJOR 0
-#define _ENGINE_VERSION_MINOR 1
+#define _ENGINE_VERSION_MINOR 2
 
 class XCube2Engine {
 	private:
