@@ -135,6 +135,11 @@ class GraphicsEngine {
 		* @param title - title of the message box, may be left out
 		*/
 		void showInfoMessageBox(const std::string & info, const std::string & title = "");
+    
+        /**
+        * @return dimension of text as if rendered using current font
+        */
+        Dimension2i getTextDimension(const std::string & text);
 
 		/**
 		* @return current window's dimension
