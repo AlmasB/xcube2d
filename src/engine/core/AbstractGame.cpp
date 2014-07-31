@@ -43,6 +43,9 @@ int AbstractGame::runMainLoop() {
 		if (eventSystem->isPressed(Key::ESC) || eventSystem->isPressed(Key::QUIT))
 			running = false;
 
+		if (eventSystem->isTapped(Key::SPACE))
+			paused = !paused;
+
 		handleKeyEvents();
 		handleMouseEvents();
 
@@ -54,8 +57,15 @@ int AbstractGame::runMainLoop() {
 		}
 
 		gfx->clearScreen();
-		render();
-		renderUI();
+		
+		if (!paused) {
+			render();
+			renderUI();
+		}
+		else {
+			renderMenu();
+		}
+
 		gfx->showScreen();
 
 		gfx->adjustFPSDelay(16);	// atm hardcoded to ~60 FPS
@@ -71,6 +81,12 @@ int AbstractGame::runMainLoop() {
 void AbstractGame::handleMouseEvents() {
 	if (eventSystem->isPressed(Mouse::BTN_LEFT)) onLeftMouseButton();
 	if (eventSystem->isPressed(Mouse::BTN_RIGHT)) onRightMouseButton();
+
+	if (paused) {
+		if (eventSystem->isTapped(Mouse::BTN_LEFT)) {
+			mgr.handleClick(eventSystem->getMousePos());
+		}
+	}
 }
 
 void AbstractGame::updatePhysics() {
@@ -80,3 +96,7 @@ void AbstractGame::updatePhysics() {
 void AbstractGame::onLeftMouseButton() {}
 void AbstractGame::onRightMouseButton() {}
 void AbstractGame::renderUI() {}
+
+void AbstractGame::renderMenu() {
+	mgr.draw(gfx);
+}

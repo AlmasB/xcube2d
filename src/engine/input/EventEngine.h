@@ -26,7 +26,10 @@ class EventEngine {
 		bool running;
 		SDL_Event event;
 		bool keys[Key::LAST];
+		bool repeats[Key::LAST];
+
 		bool buttons[Mouse::BTN_LAST];
+		bool repeatsMouse[Mouse::BTN_LAST];
 
 		void updateKeys(const SDL_Keycode &, bool);
 
@@ -48,6 +51,12 @@ class EventEngine {
 		* Equivalent to calling SDL_PollEvent()
 		*/
 		void pollEvents();
+
+		/**
+		* @return true only once per actual physical press/click
+		*/
+		bool isTapped(Key);
+		bool isTapped(Mouse);
 		
 		bool isPressed(Key);
 		bool isPressed(Mouse);

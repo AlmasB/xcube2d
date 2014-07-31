@@ -25,6 +25,7 @@
 #include <memory>
 
 #include "../graphics/GraphicsEngine.h"
+#include "../graphics/MenuManager.h"
 #include "../audio/AudioEngine.h"
 #include "../input/EventEngine.h"
 #include "../physics/PhysicsEngine.h"

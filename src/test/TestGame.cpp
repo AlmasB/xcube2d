@@ -1,7 +1,16 @@
 #include "TestGame.h"
 
+void test() {
+	std::cout << "Something clicked" << std::endl;
+}
+
 TestGame::TestGame() : AbstractGame(), score(0), lives(3), keys(5), gameWon(false), box(5, 5, 30, 30), light(0, 0, 150, 150) {
 
+
+	mgr.addButton(std::make_shared<MenuButton>(50, 50, test));
+	mgr.addButton(std::make_shared<MenuButton>(50, 500, test));
+
+	mgr.addText(std::make_shared<MenuText>(50, 150, std::string("MenuItem")));
 
 	gfx->setVerticalSync(true);
 

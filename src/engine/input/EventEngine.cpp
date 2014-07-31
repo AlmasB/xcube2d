@@ -3,6 +3,7 @@
 EventEngine::EventEngine() : running(true)/*, remoteEventEnabled(false)*/ {
 	for (int i = 0; i < Key::LAST; ++i) {
 		keys[i] = false;
+		repeats[i] = false;
 	}
 
 	buttons[Mouse::BTN_LEFT] = false;
@@ -119,6 +120,9 @@ void EventEngine::pollEvents() {
 
 		buttons[Mouse::BTN_LEFT]  = (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0;
 		buttons[Mouse::BTN_RIGHT] = (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_RIGHT)) != 0;
+
+		if (!buttons[Mouse::BTN_LEFT]) repeatsMouse[Mouse::BTN_LEFT] = false;
+		if (!buttons[Mouse::BTN_RIGHT]) repeatsMouse[Mouse::BTN_RIGHT] = false;
 	}
 }
 
@@ -141,6 +145,10 @@ void EventEngine::updateKeys(const SDL_Keycode &key, bool keyDown) {
 	}
 
 	keys[index] = keyDown;
+
+	if (!keyDown) {
+		repeats[index] = false;
+	}
 }
 
 void EventEngine::setPressed(Key key) {
@@ -157,6 +165,24 @@ bool EventEngine::isPressed(Key key) {
 
 bool EventEngine::isPressed(Mouse btn) {
 	return buttons[btn];
+}
+
+bool EventEngine::isTapped(Key key) {
+	if (keys[key] && !repeats[key]) {
+		repeats[key] = true;
+		return true;
+	}
+
+	return false;
+}
+
+bool EventEngine::isTapped(Mouse btn) {
+	if (buttons[btn] && !repeatsMouse[btn]) {
+		repeatsMouse[btn] = true;
+		return true;
+	}
+
+	return false;
 }
 
 void EventEngine::setMouseRelative(bool b) {

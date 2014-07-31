@@ -5,6 +5,7 @@
 
 class AbstractGame {
 	private:
+		void renderMenu();
 		void handleMouseEvents();
 		void updatePhysics();
 
@@ -17,6 +18,8 @@ class AbstractGame {
 		std::shared_ptr<AudioEngine> sfx;
 		std::shared_ptr<EventEngine> eventSystem;
 		std::shared_ptr<PhysicsEngine> physics;
+
+		MenuManager mgr;
 
 		/* Main loop control */
 		bool running, paused;
@@ -31,6 +34,7 @@ class AbstractGame {
 		virtual void render() = 0;
 
 		virtual void renderUI();
+
 
 		void pause()  { paused = true;  }
 		void resume() { paused = false; }
