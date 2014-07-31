@@ -154,6 +154,12 @@ Dimension2i GraphicsEngine::getMaximumWindowSize() {
 	}
 }
 
+Dimension2i GraphicsEngine::getTextDimension(const std::string & text) {
+    int w, h;
+    TTF_SizeText(font, text.c_str(), &w, &h);
+    return Dimension2i(w, h);
+}
+
 void GraphicsEngine::showInfoMessageBox(const std::string & info, const std::string & title) {
 	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, title.c_str(), info.c_str(), window);
 }

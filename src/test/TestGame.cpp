@@ -134,8 +134,8 @@ void TestGame::render() {
 void TestGame::renderUI() {
 	gfx->setDrawColor(SDL_COLOR_AQUA);
 	std::string scoreStr = std::to_string(score);
-	gfx->drawText(scoreStr, 780 - scoreStr.length() * 50, 25);
+	gfx->drawText(scoreStr, 780 - gfx->getTextDimension(scoreStr).w, 25);
 
 	if (gameWon)
-		gfx->drawText("YOU WON", 250, 500);
+		gfx->drawText("YOU WON", 400 - gfx->getTextDimension("YOU WON").w / 2, 500);
 }
