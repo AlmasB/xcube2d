@@ -6,6 +6,7 @@ void test() {
 
 TestGame::TestGame() : AbstractGame(), score(0), lives(3), keys(5), gameWon(false), box(5, 5, 30, 30), light(0, 0, 150, 150) {
 
+	
 
 	mgr.addButton(std::make_shared<MenuButton>(50, 50, test));
 	mgr.addButton(std::make_shared<MenuButton>(50, 500, test));
@@ -126,8 +127,6 @@ void TestGame::render() {
 		countFPS = 0;
 		timet = SDL_GetTicks();
 	}
-
-
 
 	gfx->setDrawColor(SDL_COLOR_WHITE);
 	for (auto line : lines)

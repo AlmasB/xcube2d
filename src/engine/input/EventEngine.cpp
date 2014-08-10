@@ -109,7 +109,7 @@ void EventEngine::runConnThread() {
 }
 
 void EventEngine::pollEvents() {
-	while (SDL_PollEvent(&event)) {
+	while (!keys[QUIT] && SDL_WaitEvent(&event)) {
 		if ((event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) && event.key.repeat == 0) {
 			updateKeys(event.key.keysym.sym, event.type == SDL_KEYDOWN);
 		}

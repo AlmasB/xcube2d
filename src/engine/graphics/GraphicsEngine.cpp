@@ -303,6 +303,9 @@ void GraphicsEngine::drawTexture(SDL_Texture * texture, SDL_Rect * dst, SDL_Rend
 }
 
 void GraphicsEngine::drawText(const std::string & text, const int &x, const int &y) {
+	if (text.empty())
+		return;
+
 	SDL_Texture * textTexture = createTextureFromString(text, font, drawColor);
 	int w, h;
 	SDL_QueryTexture(textTexture, 0, 0, &w, &h);

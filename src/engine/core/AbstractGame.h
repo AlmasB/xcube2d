@@ -3,15 +3,20 @@
 
 #include "XCube2d.h"
 
-class AbstractGame {
+class AbstractGame : public Runnable {
 	private:
 		void renderMenu();
 		void handleMouseEvents();
 		void updatePhysics();
+		
+		//static void loop();
+		
+		
+		
 
 	protected:
+		
 		AbstractGame();
-		virtual ~AbstractGame();
 
 		/* ENGINE OBJECTS */
 		std::shared_ptr<GraphicsEngine> gfx;
@@ -39,7 +44,11 @@ class AbstractGame {
 		void pause()  { paused = true;  }
 		void resume() { paused = false; }
 	public:
+		virtual ~AbstractGame();
+
 		int runMainLoop();
+		void run();
+		
 };
 
 #endif

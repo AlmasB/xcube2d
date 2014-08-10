@@ -27,8 +27,43 @@ AbstractGame::~AbstractGame() {
 #ifdef __DEBUG
 	debug("AbstractGame::~AbstractGame() finished");
 	debug("The game finished and cleaned up successfully. Press Enter to exit");
-	getchar();
+	//getchar();
 #endif
+}
+
+void AbstractGame::run() {
+	//eventSystem->pollEvents();
+
+	if (eventSystem->isPressed(Key::ESC) || eventSystem->isPressed(Key::QUIT)) {
+		eventSystem->setPressed(Key::QUIT);
+		running = false;
+		//loopTask->cancel();
+	}
+
+	if (eventSystem->isTapped(Key::SPACE))
+		paused = !paused;
+
+	handleKeyEvents();
+	handleMouseEvents();
+
+	if (!paused) {
+		update();
+		updatePhysics();
+
+		gameTime += 0.016;	// 60 times a sec
+	}
+
+	gfx->clearScreen();
+
+	if (!paused) {
+		render();
+		renderUI();
+	}
+	else {
+		renderMenu();
+	}
+
+	gfx->showScreen();
 }
 
 int AbstractGame::runMainLoop() {
@@ -36,40 +71,15 @@ int AbstractGame::runMainLoop() {
 	debug("Entered Main Loop");
 #endif
 
-	while (running) {
-		gfx->setFrameStart();
-		eventSystem->pollEvents();
+	//std::shared_ptr<Task> loopTask = std::make_shared<Task>(16, std::shared_ptr<Runnable>(this));
+	//loopTask->start();
 
-		if (eventSystem->isPressed(Key::ESC) || eventSystem->isPressed(Key::QUIT))
-			running = false;
+	//while (!loopTask->isCancelled())
+		//SDL_Delay(500);
 
-		if (eventSystem->isTapped(Key::SPACE))
-			paused = !paused;
+	eventSystem->pollEvents();
 
-		handleKeyEvents();
-		handleMouseEvents();
-
-		if (!paused) {
-			update();
-			updatePhysics();
-
-			gameTime += 0.016;	// 60 times a sec
-		}
-
-		gfx->clearScreen();
-		
-		if (!paused) {
-			render();
-			renderUI();
-		}
-		else {
-			renderMenu();
-		}
-
-		gfx->showScreen();
-
-		gfx->adjustFPSDelay(16);	// atm hardcoded to ~60 FPS
-	}
+	//loopTask->cancel();
 
 #ifdef __DEBUG
 	debug("Exited Main Loop");
