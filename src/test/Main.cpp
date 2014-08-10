@@ -6,6 +6,8 @@
 int count = 0;
 Uint32 ticks = 0;
 
+bool stop = false;
+
 Uint32 doCount(Uint32 interval, void *param) {
 	count++;
 	//std::cout << count << " " << std::endl;
@@ -34,13 +36,26 @@ void doReset() {
 class Task {
 	public:
 		void(*func)(void);
-		int period;
+		double period;
 		double lastRun;
+		Uint32 start, end;
+
+		void run() {
+			while (!stop) {
+				// set start
+				start = SDL_GetTicks();
+
+				// do work
+				func();
+
+				// adjust
+				end = SDL_GetTicks() - start;
+				if (end < period) {
+					SDL_Delay(period - end);
+				}
+			}
+		}
 };
-
-bool stop = false;
-
-using namespace std::chrono;
 
 class ScheduledExecutor {
 	private:
@@ -97,16 +112,16 @@ class ScheduledExecutor {
 
 int main(int argc, char * args[]) {
 
-	ScheduledExecutor exec;
+	//ScheduledExecutor exec;
 
-	exec.submit(doCount, 20);
-	exec.submit(doReset, 1000);
+	//exec.submit(doCount, 20);
+	//exec.submit(doReset, 1000);
 
 	//SDL_AddTimer(1000/60, doCount, 0);
 	//SDL_AddTimer(1000, doReset, 0);
 
 
-	std::thread bgThread(&ScheduledExecutor::run, exec);
+	//std::thread bgThread(&ScheduledExecutor::run, exec);
 
 	
 
@@ -119,10 +134,30 @@ int main(int argc, char * args[]) {
 		getchar();
 	}*/
 
-	getchar();
+	/*getchar();
 	stop = true;
 
 	bgThread.join();
+
+	getchar();*/
+
+
+	Task t;
+	t.period = 47.0;
+	t.func = doCount;
+	
+	Task t2;
+	t2.period = 1000;
+	t2.func = doReset;
+
+	std::thread thread1(&Task::run, t);
+	std::thread thread2(&Task::run, t2);
+
+
+	getchar();
+	stop = true;
+	thread1.join();
+	thread2.join();
 
 	getchar();
 	return 0;

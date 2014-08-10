@@ -115,7 +115,20 @@ void TestGame::update() {
 	}
 }
 
+int countFPS = 0;
+Uint32 timet = 0;
+
+std::string text = "";
+
 void TestGame::render() {
+	if (countFPS == 60) {
+		text = std::to_string((SDL_GetTicks() - timet) / 1000.0);
+		countFPS = 0;
+		timet = SDL_GetTicks();
+	}
+
+
+
 	gfx->setDrawColor(SDL_COLOR_WHITE);
 	for (auto line : lines)
 		if (light.intersects(*line))
@@ -129,12 +142,19 @@ void TestGame::render() {
 	for (auto key : points)
 		if (key->alive && light.contains(key->pos))
 			gfx->drawPoint(key->pos);
+
+	countFPS++;
 }
 
 void TestGame::renderUI() {
 	gfx->setDrawColor(SDL_COLOR_AQUA);
 	std::string scoreStr = std::to_string(score);
 	gfx->drawText(scoreStr, 780 - gfx->getTextDimension(scoreStr).w, 25);
+
+	std::string fpsStr = std::to_string(gfx->getAverageFPS());
+	gfx->drawText(fpsStr, 780 - gfx->getTextDimension(fpsStr).w, 55);
+
+	gfx->drawText(text, 780 - gfx->getTextDimension(text).w, 85);
 
 	if (gameWon)
 		gfx->drawText("YOU WON", 400 - gfx->getTextDimension("YOU WON").w / 2, 500);
