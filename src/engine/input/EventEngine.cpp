@@ -108,14 +108,21 @@ void EventEngine::runConnThread() {
 #endif
 }
 
-void EventEngine::pollEvents() {
-	while (!keys[QUIT] && SDL_WaitEvent(&event)) {
+void EventEngine::pushQuitEvent() {
+	SDL_Event e;
+	e.type = SDL_QUIT;
+	SDL_PushEvent(&e);
+}
+
+void EventEngine::waitAndDispatchEvents() {
+	while (SDL_WaitEvent(&event)) {
 		if ((event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) && event.key.repeat == 0) {
 			updateKeys(event.key.keysym.sym, event.type == SDL_KEYDOWN);
 		}
 
 		if (event.type == SDL_QUIT) {
 			keys[QUIT] = true;
+			break;
 		}
 
 		buttons[Mouse::BTN_LEFT]  = (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0;

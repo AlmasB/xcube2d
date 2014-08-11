@@ -36,22 +36,19 @@ class Runnable {
 		virtual void run() = 0;
 };
 
+// TODO: impl func call too
 class Task {
 	private:
 		Uint32 interval;
-		bool started, cancelled, postCancel;
+		bool started, cancelled;
 		void(*func)(void);
 		SDL_TimerID timerID;
-		std::shared_ptr<Runnable> runnable;
+		Runnable * runnable;
 
 		static Uint32 run(Uint32 interval, void * param) {
 			Task * task = static_cast<Task *>(param);
 
-			//if (nullptr == task)
-				//return 0;
-
 			if (task->isCancelled()) {
-				//task->postCancel = true;
 				return 0;
 
 			}
@@ -60,24 +57,22 @@ class Task {
 				task->runnable->run();
 			}
 			else {
-				task->func();
+				//task->func();
 			}
 			return interval;
 		}
 
 	public:
 		Task(const Uint32 & interval, void(*func)(void)) : func(func), started(false), 
-			cancelled(false), interval(interval), postCancel(false) {}
+			cancelled(false), interval(interval) {}
 
-		Task(const Uint32 & interval, std::shared_ptr<Runnable> runnable) : runnable(runnable), interval(interval),
-			started(false), cancelled(false), postCancel(false) {}
+		Task(const Uint32 & interval, Runnable * runnable) : runnable(runnable), interval(interval),
+			started(false), cancelled(false) {}
 
 		~Task() {
 			#ifdef __DEBUG
 					debug("Task::~() started");
 			#endif
-					runnable.reset();
-					postCancel = true;
 
 			#ifdef __DEBUG
 					debug("Task::~() finished");
@@ -95,12 +90,11 @@ class Task {
 			}
 		}
 
-		bool isCancelled() { return postCancel; }
+		bool isCancelled() { return cancelled; }
 
 		void cancel() {
 			if (started) {
 				cancelled = true;
-				//while (!postCancel) SDL_Delay(1);
 				SDL_RemoveTimer(timerID);
 			}
 		}

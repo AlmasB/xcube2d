@@ -25,6 +25,7 @@ class EventEngine {
 	private:
 		bool running;
 		SDL_Event event;
+
 		bool keys[Key::LAST];
 		bool repeats[Key::LAST];
 
@@ -48,9 +49,23 @@ class EventEngine {
 		~EventEngine();
 
 		/**
-		* Equivalent to calling SDL_PollEvent()
+		* Push SDL_QUIT event to stop
+		* waitAndDispatchEvents()
+		*
+		* This allows to call stop even when
+		* the user didn't close the window
+		* e.g. user hit EXIT from the game menu
 		*/
-		void pollEvents();
+		void pushQuitEvent();
+
+		/**
+		* this will block execution and keep
+		* dispatching events until
+		* SDL_QUIT has occurred (user closed application window)
+		* OR
+		* pushQuitEvent() has been called
+		*/
+		void waitAndDispatchEvents();
 
 		/**
 		* @return true only once per actual physical press/click

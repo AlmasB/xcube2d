@@ -3,19 +3,27 @@
 
 #include "XCube2d.h"
 
+/**
+* Typical use
+*
+* Game : public AbstractGame
+* Game game;
+* game.runMainLoop();
+*
+*/
 class AbstractGame : public Runnable {
 	private:
 		void renderMenu();
 		void handleMouseEvents();
 		void updatePhysics();
-		
-		//static void loop();
-		
-		
-		
 
-	protected:
+		/**
+		* DO NOT call directly
+		* use runMainLoop()
+		*/
+		void run();
 		
+	protected:
 		AbstractGame();
 
 		/* ENGINE OBJECTS */
@@ -43,12 +51,14 @@ class AbstractGame : public Runnable {
 
 		void pause()  { paused = true;  }
 		void resume() { paused = false; }
+
 	public:
 		virtual ~AbstractGame();
 
+		/**
+		* call this to run the main loop
+		*/
 		int runMainLoop();
-		void run();
-		
 };
 
 #endif

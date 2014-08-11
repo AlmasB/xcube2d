@@ -27,18 +27,17 @@ AbstractGame::~AbstractGame() {
 #ifdef __DEBUG
 	debug("AbstractGame::~AbstractGame() finished");
 	debug("The game finished and cleaned up successfully. Press Enter to exit");
-	//getchar();
+	getchar();
 #endif
 }
 
 void AbstractGame::run() {
-	//eventSystem->pollEvents();
-
-	if (eventSystem->isPressed(Key::ESC) || eventSystem->isPressed(Key::QUIT)) {
-		eventSystem->setPressed(Key::QUIT);
+	if (eventSystem->isPressed(Key::QUIT)) {
 		running = false;
-		//loopTask->cancel();
 	}
+
+	if (eventSystem->isPressed(Key::ESC))
+		eventSystem->pushQuitEvent();
 
 	if (eventSystem->isTapped(Key::SPACE))
 		paused = !paused;
@@ -71,15 +70,12 @@ int AbstractGame::runMainLoop() {
 	debug("Entered Main Loop");
 #endif
 
-	//std::shared_ptr<Task> loopTask = std::make_shared<Task>(16, std::shared_ptr<Runnable>(this));
-	//loopTask->start();
+	std::shared_ptr<Task> loopTask = std::make_shared<Task>(16, this);
+	loopTask->start();
 
-	//while (!loopTask->isCancelled())
-		//SDL_Delay(500);
+	eventSystem->waitAndDispatchEvents();
 
-	eventSystem->pollEvents();
-
-	//loopTask->cancel();
+	loopTask->cancel();
 
 #ifdef __DEBUG
 	debug("Exited Main Loop");
