@@ -35,7 +35,7 @@ GraphicsEngine::GraphicsEngine() : fpsAverage(0), fpsPrevious(0), fpsStart(0), f
 
 	window = SDL_CreateWindow("The X-CUBE 2D Game Engine",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+		DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
 	if (nullptr == window)
 		throw EngineException("Failed to create window", SDL_GetError());
@@ -58,6 +58,8 @@ GraphicsEngine::GraphicsEngine() : fpsAverage(0), fpsPrevious(0), fpsStart(0), f
 		throw EngineException("Couldn't load default font - res/fonts/arial.ttf", TTF_GetError());
 
 	font = defaultFont;
+
+	SDL_RenderSetLogicalSize(renderer, 800, 600);
 }
 
 GraphicsEngine::~GraphicsEngine() {
@@ -72,6 +74,7 @@ GraphicsEngine::~GraphicsEngine() {
 
 	IMG_Quit();
 	TTF_Quit();
+	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 
@@ -128,8 +131,55 @@ void GraphicsEngine::setDrawColor(const SDL_Color & color) {
 }
 
 void GraphicsEngine::setWindowSize(const int &w, const int &h) {
+	Dimension2i dim = getCurrentWindowSize();
+
+	float scaleX = w / dim.w;
+	float scaleY = h / dim.h;
+
+	//SDL_RenderSetScale(renderer, scaleX, scaleY);
+	
+
+	SDL_Rect rect;
+
+	SDL_RenderGetViewport(renderer, &rect);
+	debug("viewport", rect.x);
+	debug("viewport", rect.y);
+	debug("viewport", rect.w);
+	debug("viewport", rect.h);
+
+
 	SDL_SetWindowSize(window, w, h);
+	
+
+	SDL_RenderGetViewport(renderer, &rect);
+	debug("viewport", rect.x);
+	debug("viewport", rect.y);
+	debug("viewport", rect.w);
+	debug("viewport", rect.h);
+	
+
+	//SDL_Rect rect = { 0, 0, w, h };
+
+	//SDL_RenderSetViewport(renderer, &rect);
 	SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+
+	debug("viewport", rect.x);
+	debug("viewport", rect.y);
+	debug("viewport", rect.w);
+	debug("viewport", rect.h);
+
+	//renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+	dim = getCurrentWindowSize();
+	debug("screen", dim.w);
+	debug("screenH", dim.h);
+
+	//SDL_RenderPresent(renderer);
+
+	/*if (nullptr != renderer)
+		debug("renderer not null");*/
+
+
 #ifdef __DEBUG
 	debug("Set Window W", w);
 	debug("Set Window H", h);
@@ -172,6 +222,7 @@ void GraphicsEngine::clearScreen() {
 
 void GraphicsEngine::showScreen() {
 	SDL_RenderPresent(renderer);
+	//debug("showScreen", "rendering");
 }
 
 void GraphicsEngine::setFont(const Font & _font) {

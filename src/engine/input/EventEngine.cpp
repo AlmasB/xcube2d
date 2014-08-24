@@ -116,12 +116,14 @@ void EventEngine::pushQuitEvent() {
 
 void EventEngine::waitAndDispatchEvents() {
 	while (SDL_WaitEvent(&event)) {
+
 		if ((event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) && event.key.repeat == 0) {
 			updateKeys(event.key.keysym.sym, event.type == SDL_KEYDOWN);
 		}
 
 		if (event.type == SDL_QUIT) {
 			keys[QUIT] = true;
+			std::cout << "called" << std::endl;
 			break;
 		}
 

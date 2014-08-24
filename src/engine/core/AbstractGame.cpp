@@ -45,6 +45,8 @@ void AbstractGame::run() {
 	handleKeyEvents();
 	handleMouseEvents();
 
+	//debug("run");
+
 	if (!paused) {
 		update();
 		updatePhysics();

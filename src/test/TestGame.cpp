@@ -79,9 +79,23 @@ void TestGame::handleKeyEvents() {
 	if (eventSystem->isPressed(Key::D)) {
 		velocity.x = speed;
 	}
+
+	if (eventSystem->isTapped(Key::UP)) {
+
+		Dimension2i dim = gfx->getCurrentWindowSize();
+
+		gfx->setWindowSize(1280, 1024);
+		//gfx->setFullscreen(true);
+	}
+
+	if (eventSystem->isTapped(Key::DOWN)) {
+		gfx->setWindowSize(800, 600);
+	}
 }
 
 void TestGame::update() {
+	//debug("update");
+
 	box.x += velocity.x;
 	for (auto line : lines) {
 		if (box.intersects(*line)) {
@@ -122,10 +136,14 @@ Uint32 timet = 0;
 std::string text = "";
 
 void TestGame::render() {
+	//debug("render");
+
 	if (countFPS == 60) {
 		text = std::to_string((SDL_GetTicks() - timet) / 1000.0);
 		countFPS = 0;
 		timet = SDL_GetTicks();
+
+		//debug("render", countFPS);
 	}
 
 	gfx->setDrawColor(SDL_COLOR_WHITE);
