@@ -1,7 +1,7 @@
 #ifndef __TIMER_H__
 #define __TIMER_H__
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 static const int SECOND = 1000;
 static const int MINUTE = 60 * SECOND;

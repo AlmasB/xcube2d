@@ -1,7 +1,7 @@
 #ifndef __AUDIO_ENGINE_H__
 #define __AUDIO_ENGINE_H__
 
-#include <SDL2/SDL_mixer.h>
+#include <SDL_mixer.h>
 
 #include "../core/EngineCommon.h"
 

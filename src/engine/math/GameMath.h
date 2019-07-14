@@ -33,7 +33,7 @@
 
 #include <cstdlib>
 
-#include <SDL2/SDL_rect.h>
+#include <SDL_rect.h>
 
 static const float PI_OVER_180 = (float)(3.14159265358979323846 / 180.0f);
 static const float _180_OVER_PI = (float)(180.0f / 3.14159265358979323846);
