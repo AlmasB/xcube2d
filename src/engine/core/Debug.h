@@ -2,8 +2,6 @@
 #define __DEBUG_H__
 
 #include <iostream>
-#include <stack>
-#include <string>
 
 /**
 	If enabled, most of the classes/structs will have
@@ -21,13 +19,5 @@ inline void debug(const char * msg, const char * details = "") {
 inline void debug(const char * msg, int value) {
 	std::cout << "DEBUG: " << msg << " " << value << std::endl;
 }
-
-class ErrorStack {
-	private:
-		static std::stack<std::string> errorData;
-	public:
-		static void push(const std::string & errorMessage);
-		static void dump();
-};
 
 #endif

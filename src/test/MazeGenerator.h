@@ -16,14 +16,10 @@ class Dir {
 		Dir * opposite;
 };
 
-
-
 class MazeGenerator {
 	private:
-		
 		Dir N, S, E, W;
 
-		
 	public:
 		int x, y;
 		int ** maze;

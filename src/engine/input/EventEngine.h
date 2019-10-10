@@ -5,7 +5,6 @@
 #include <thread>
 
 #include <SDL.h>
-//#include <SDL2/SDL_net.h>
 
 #include "../core/EngineCommon.h"
 #include "../math/GameMath.h"
@@ -18,8 +17,6 @@ enum Mouse {
 	BTN_LEFT, BTN_RIGHT, BTN_LAST
 };
 
-//static const Uint16 PORT = 55555;	// should be safe
-
 class EventEngine {
 	friend class XCube2Engine;
 	private:
@@ -29,16 +26,6 @@ class EventEngine {
 		bool buttons[Mouse::BTN_LAST];
 
 		void updateKeys(const SDL_Keycode &, bool);
-
-		/*bool remoteEventEnabled;
-		std::thread * connThread;
-
-		IPaddress ip, *remoteip;
-		TCPsocket server, client;
-		char message[8];	// recv buffer;
-		int len;
-		Uint32 ipaddr;
-		Uint16 port;*/
 
 		EventEngine();
 	public:

@@ -2,12 +2,25 @@
 #define __ENGINE_COMMON_H__
 
 #include <exception>
+#include <iostream>
+#include <string>
 
-#include "Debug.h"
+/**
+    If enabled, most of the classes/structs will have
+    a printDebug() function, which prints debug info to std out
+    Also debug info will be shown at crucial stages
 
-#define _ENGINE_ERROR_NONE ""
+    Comment out the following to remove debug code from release build
+*/
+#define __DEBUG
 
-#define safeDelete(ptr) if (ptr) delete ptr
+inline void debug(const char* msg, const char* details = "") {
+    std::cout << "DEBUG: " << msg << " " << details << std::endl;
+}
+
+inline void debug(const char* msg, int value) {
+    std::cout << "DEBUG: " << msg << " " << value << std::endl;
+}
 
 class EngineException : public std::exception {
 	private:
