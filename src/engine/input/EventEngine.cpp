@@ -1,111 +1,15 @@
 #include "EventEngine.h"
 
-EventEngine::EventEngine() : running(true)/*, remoteEventEnabled(false)*/ {
+EventEngine::EventEngine() : running(true) {
 	for (int i = 0; i < Key::LAST; ++i) {
 		keys[i] = false;
 	}
 
 	buttons[Mouse::BTN_LEFT] = false;
 	buttons[Mouse::BTN_RIGHT] = false;
-	/*
-#ifdef __DEBUG
-	debug("Remote Control is", remoteEventEnabled ? "ON" : "OFF");
-#endif
-
-	if (remoteEventEnabled) {
-		bool netOK = true, ipOK = true;
-
-		if (SDLNet_Init() < 0) {
-			netOK = false;
-#ifdef __DEBUG
-			debug("Failed to init SDL_net", SDLNet_GetError());
-#endif
-		}
-
-		if (!netOK || SDLNet_ResolveHost(&ip, NULL, PORT) < 0) {
-			ipOK = false;
-#ifdef __DEBUG
-			debug("Failed to resolve host", SDLNet_GetError());
-			debug("Port:", PORT);
-#endif
-		}
-
-		if (netOK && ipOK) {
-			server = SDLNet_TCP_Open(&ip);
-			if (server != nullptr) {
-				connThread = new std::thread(&EventEngine::runConnThread, this);
-#ifdef __DEBUG
-				debug("EventEngine::remoteEventEnabled successful");
-#endif
-			}
-			else {
-				debug("Failed to create local server", SDLNet_GetError());
-			}
-		}
-	}*/
 }
 
-EventEngine::~EventEngine() {
-#ifdef __DEBUG
-	debug("EventEngine::~EventEngine() started");
-#endif
-	/*if (remoteEventEnabled) {
-		running = false;
-
-		if (connThread)
-			connThread->join();	// wait till it finishes
-
-		if (client != nullptr)
-			SDLNet_TCP_Close(client);
-		if (server != nullptr)
-			SDLNet_TCP_Close(server);
-
-		safeDelete(connThread);
-		SDLNet_Quit();
-	}*/
-#ifdef __DEBUG
-	debug("EventEngine::~EventEngine() finished");
-#endif
-}
-
-void EventEngine::runConnThread() {
-#ifdef __DEBUG
-	debug("EventEngine::runConnThread() started on a separate thread");
-#endif
-
-	/*while (running) {
-		if (nullptr == client) {
-			client = SDLNet_TCP_Accept(server);
-		}
-		else {
-			remoteip = SDLNet_TCP_GetPeerAddress(client);	// TODO: do init once and redo on connection lost
-			ipaddr = SDL_SwapBE32(remoteip->host);
-			len = SDLNet_TCP_Recv(client, message, 8);	// doesn't return until catches a tcp packet
-
-			for (int i = 0; i < len; ++i) {
-				char c = (int)message[i];
-			
-				keys[Key::W] = ('W' == c && !keys[Key::W]);
-				keys[Key::S] = ('S' == c && !keys[Key::S]);
-				keys[Key::A] = ('A' == c && !keys[Key::A]);
-				keys[Key::D] = ('D' == c && !keys[Key::D]);
-				keys[Key::LEFT]  = ('L' == c && !keys[Key::LEFT]);
-				keys[Key::RIGHT] = ('R' == c && !keys[Key::RIGHT]);
-
-
-				if ('N' == c) {
-					for (int i = 0; i < Key::LAST; ++i)
-						keys[i] = false;
-				}
-			}
-		}
-		SDL_Delay(16);
-	}*/
-
-#ifdef __DEBUG
-	debug("EventEngine::runConnThread() finished on a separate thread");
-#endif
-}
+EventEngine::~EventEngine() {}
 
 void EventEngine::pollEvents() {
 	while (SDL_PollEvent(&event)) {

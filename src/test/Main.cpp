@@ -5,8 +5,7 @@ int main(int argc, char * args[]) {
 	try {
 		TestGame game;
 		game.runMainLoop();
-	}
-	catch (EngineException & e) {
+	} catch (EngineException & e) {
 		std::cout << e.what() << std::endl;
 		getchar();
 	}

@@ -19,7 +19,8 @@ class AbstractGame {
 		std::shared_ptr<PhysicsEngine> physics;
 
 		/* Main loop control */
-		bool running, paused;
+		bool running;
+        bool paused;
 		double gameTime;
 
 		virtual void handleKeyEvents() = 0;

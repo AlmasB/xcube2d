@@ -59,12 +59,6 @@ class EventEngine {
 		* Returns current mouse position relative to the window
 		*/
 		Point2 getMousePos();
-
-		/**
-		* Starts executing android "joystick" listener
-		* on a separate thread
-		*/
-		void runConnThread();
 };
 
 #endif
