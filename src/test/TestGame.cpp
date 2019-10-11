@@ -8,7 +8,6 @@ TestGame::TestGame() : AbstractGame(), score(0), lives(3), keys(5), gameWon(fals
 	gen = new MazeGenerator(10, 10);
 	gen->generateMaze(0, 0);
 
-
 	int dist = 40;
 
 	for (int i = 0; i < gen->y; ++i) {

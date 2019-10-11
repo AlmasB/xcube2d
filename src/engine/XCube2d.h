@@ -5,10 +5,10 @@
 #include <vector>
 #include <memory>
 
-#include "../graphics/GraphicsEngine.h"
-#include "../audio/AudioEngine.h"
-#include "../input/EventEngine.h"
-#include "../physics/PhysicsEngine.h"
+#include "GraphicsEngine.h"
+#include "AudioEngine.h"
+#include "EventEngine.h"
+#include "PhysicsEngine.h"
 #include "ResourceManager.h"
 #include "Timer.h"
 

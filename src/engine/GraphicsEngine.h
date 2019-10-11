@@ -9,8 +9,8 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
-#include "../core/EngineCommon.h"
-#include "../math/GameMath.h"
+#include "EngineCommon.h"
+#include "GameMath.h"
 
 /* ENGINE DEFAULT SETTINGS */
 static const int DEFAULT_WINDOW_WIDTH = 800;

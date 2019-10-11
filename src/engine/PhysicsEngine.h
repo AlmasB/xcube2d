@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 
-#include "../math/GameMath.h"
+#include "GameMath.h"
 
 static const float DEFAULT_GRAVITY = -1.0f;
 
@@ -18,8 +18,6 @@ class PhysicsEngine {
 		PhysicsEngine();
 
 		std::vector<std::shared_ptr<PhysicsObject>> objects;
-
-		bool isOnPlatform(std::shared_ptr<PhysicsObject>);
 
 	public:
 		/**
@@ -36,21 +34,19 @@ class PhysicsObject {
 	friend class PhysicsEngine;
 	protected:
 		Point2 center;
-		float lX, lY, lZ, hlX, hlY, hlZ;	// lengths and half lengths
+		float lX, lY, hlX, hlY;	// lengths and half lengths
 
 		Vector2f force;
 
 		void applyForce(const Vector2f &);
 	public:
-		PhysicsObject(const Point2 & center, float x, float y, float z);
+		PhysicsObject(const Point2 & center, float x, float y);
 
 		Point2 getCenter() { return center; }
 		float getLengthX() { return lX; }
 		float getLengthY() { return lY; }
-		float getLengthZ() { return lZ; }
 		float getHalfLengthX() { return hlX; }
 		float getHalfLengthY() { return hlY; }
-		float getHalfLengthZ() { return hlZ; }
 
 		bool isColliding(const PhysicsObject & other);
 		/**

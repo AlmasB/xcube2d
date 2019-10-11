@@ -4,8 +4,8 @@
 #include <map>
 #include <vector>
 
-#include "../graphics/GraphicsEngine.h"
-#include "../audio/AudioEngine.h"
+#include "GraphicsEngine.h"
+#include "AudioEngine.h"
 
 class ResourceManager {
 	private:

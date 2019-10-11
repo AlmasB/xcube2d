@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <iostream>
 
-#include "../engine/math/GameMath.h"
+#include "../engine/GameMath.h"
 
 class Dir;
 
@@ -28,7 +28,6 @@ class MazeGenerator {
 		~MazeGenerator();
 
 		void generateMaze(int, int);
-		void display();
 };
 
 static bool between(int v, int upper) {

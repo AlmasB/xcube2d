@@ -3,7 +3,7 @@
 
 #include <SDL_mixer.h>
 
-#include "../core/EngineCommon.h"
+#include "EngineCommon.h"
 
 class AudioEngine {
 	friend class XCube2Engine;

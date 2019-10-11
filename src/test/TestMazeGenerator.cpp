@@ -1,4 +1,4 @@
-#include "MazeGenerator.h"
+#include "TestMazeGenerator.h"
 
 Dir::Dir() {}
 
@@ -47,9 +47,6 @@ MazeGenerator::~MazeGenerator() {
 void MazeGenerator::generateMaze(int cx, int cy) {
 	Dir * dirs = new Dir[4] {N, S, E, W};
 
-	//std::cout << "N bit" << N.bit << std::endl;
-	//std::cout << "dir N bit" << dirs[0].bit << std::endl;
-
 	for (int i = 0; i < 4; ++i) {
 		int index;
 		do {
@@ -72,36 +69,4 @@ void MazeGenerator::generateMaze(int cx, int cy) {
 			generateMaze(nx, ny);
 		}
 	}
-}
-
-void MazeGenerator::display() {
-	for (int i = 0; i < y; i++) {
-		// draw the north edge
-		for (int j = 0; j < x; j++) {
-			std::cout << (((maze[j][i] & 1) == 0) ? "+---" : "+   ");
-		}
-		std::cout << "+" << std::endl;
-
-		// draw the west edge
-		for (int j = 0; j < x; j++) {
-			std::cout << (((maze[j][i] & 8) == 0) ? "|   " : "    ");
-		}
-		std::cout << "|" << std::endl;
-	}
-
-	// draw the bottom line
-	for (int j = 0; j < x; j++) {
-		std::cout << "+---";
-	}
-	std::cout << "+" << std::endl;
-
-
-
-
-	/*for (int i = 0; i < x; ++i) {
-		for (int j = 0; j < y; ++j) {
-			std::cout << maze[i][j];
-		}
-		std::cout << std::endl;
-	}*/
 }

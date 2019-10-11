@@ -1,9 +1,9 @@
 #ifndef __TEST_GAME_H__
 #define __TEST_GAME_H__
 
-#include "../engine/core/AbstractGame.h"
+#include "../engine/AbstractGame.h"
 
-#include "MazeGenerator.h"
+#include "TestMazeGenerator.h"
 
 struct GameKey {
 	Point2 pos;

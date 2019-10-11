@@ -38,7 +38,17 @@ struct Point2 {
 	Point2() : Point2(0, 0) {}
 	Point2(int x, int y) : x(x), y(y) {}
 
-    // TODO: overload += for vector
+    Point2& operator+=(const Vector2f& v) {
+        x += v.x;
+        y += v.y;
+        return *this;
+    }
+
+    Point2& operator-=(const Vector2f& v) {
+        x -= v.x;
+        y -= v.y;
+        return *this;
+    }
 };
 
 struct Line2i {
