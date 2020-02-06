@@ -21,6 +21,8 @@ To build, you will need:
 * [CMake](https://cmake.org/) 3.6+
 * Visual Studio 2017+
 
+Open the command line (via Git Bash):
+
 ```
 cd xcube2d
 mkdir build
