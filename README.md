@@ -21,6 +21,9 @@ To build, you will need:
 * [CMake](https://cmake.org/) 3.6+
 * Visual Studio 2017+
 
+1. Download this repository by clicking "Clone or download" -> Download zip.
+2. Extract the zip file and rename `xcube2d-master` to `xcube`.
+
 Open the command line (via Git Bash):
 
 ```
@@ -41,6 +44,6 @@ After this, a ".sln" will be generated in `build/`.
 2. Right click on MyGame in project explorer and select as startup project.
 3. Right click on MyGame again and select Properties.
 4. In the properties window, Linker -> System and change SubSystem to Console.
-5. Copy the `res/` directory to the `build` directory (or automate it via the CMakeLists.txt build file).
+5. Copy the `res/` directory to the `build` directory.
 
 You can now run the demo from Visual Studio via Local Windows Debugger.
