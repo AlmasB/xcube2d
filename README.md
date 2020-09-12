@@ -47,3 +47,14 @@ After this, a ".sln" will be generated in `build/`.
 5. Copy the `res/` directory to the `build` directory.
 
 You can now run the demo from Visual Studio via Local Windows Debugger.
+
+### Task
+
+**Read the assignment brief!**
+
+You should only modify:
+
+* MyEngineSystem.h
+* MyEngineSystem.cpp
+* MyGame.h
+* MyGame.cpp
