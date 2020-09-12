@@ -3,27 +3,21 @@
 
 #include "../engine/AbstractGame.h"
 
-#include "TestMazeGenerator.h"
-
 struct GameKey {
 	Point2 pos;
-	bool alive;
+	bool isAlive;
 };
 
-class TestGame : public AbstractGame {
+class MyGame : public AbstractGame {
 	private:
 		Rect box;
-		Rect light;
 
 		Vector2i velocity;
 
-		MazeGenerator * gen;
-
-		std::vector<std::shared_ptr<Line2i>> lines;
-		std::vector<std::shared_ptr<GameKey>> points;
+		std::vector<std::shared_ptr<GameKey>> gameKeys;
 
 		/* GAMEPLAY */
-		int score, keys, lives;
+		int score, numKeys, lives;
 		bool gameWon;
 
 		void handleKeyEvents();
@@ -31,8 +25,8 @@ class TestGame : public AbstractGame {
 		void render();
 		void renderUI();
 	public:
-		TestGame();
-		~TestGame();
+        MyGame();
+		~MyGame();
 };
 
 #endif

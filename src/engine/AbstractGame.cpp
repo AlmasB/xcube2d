@@ -8,6 +8,7 @@ AbstractGame::AbstractGame() : running(true), paused(false), gameTime(0.0) {
 	sfx = engine->getAudioEngine();
 	eventSystem = engine->getEventEngine();
 	physics = engine->getPhysicsEngine();
+    mySystem = engine->getMyEngineSystem();
 }
 
 AbstractGame::~AbstractGame() {

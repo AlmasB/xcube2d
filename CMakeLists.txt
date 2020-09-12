@@ -32,6 +32,7 @@ if(WIN32)
             "${CMAKE_SOURCE_DIR}/libs/SDL2_image/lib/x64/SDL2_image.dll"
             "${CMAKE_SOURCE_DIR}/libs/SDL2_image/lib/x64/zlib1.dll"
             "${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x64/SDL2_mixer.dll"
+            "${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x64/libmpg123-0.dll"
             "${CMAKE_SOURCE_DIR}/libs/SDL2_ttf/lib/x64/libfreetype-6.dll"
             "${CMAKE_SOURCE_DIR}/libs/SDL2_ttf/lib/x64/SDL2_ttf.dll"
             DESTINATION ${CMAKE_BINARY_DIR})

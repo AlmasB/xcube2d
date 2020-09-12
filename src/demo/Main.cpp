@@ -1,9 +1,9 @@
-#include "TestGame.h"
+#include "MyGame.h"
 
 int main(int argc, char * args[]) {
 
 	try {
-		TestGame game;
+        MyGame game;
 		game.runMainLoop();
 	} catch (EngineException & e) {
 		std::cout << e.what() << std::endl;

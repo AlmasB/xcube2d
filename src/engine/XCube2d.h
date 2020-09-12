@@ -9,6 +9,7 @@
 #include "AudioEngine.h"
 #include "EventEngine.h"
 #include "PhysicsEngine.h"
+#include "custom/MyEngineSystem.h"
 #include "ResourceManager.h"
 #include "Timer.h"
 
@@ -22,6 +23,8 @@ class XCube2Engine {
 		std::shared_ptr<AudioEngine> audioInstance;
 		std::shared_ptr<EventEngine> eventInstance;
 		std::shared_ptr<PhysicsEngine> physicsInstance;
+
+        std::shared_ptr<MyEngineSystem> myEngineSystemInstance;
 
 		XCube2Engine();
 	public:
@@ -47,6 +50,7 @@ class XCube2Engine {
 		std::shared_ptr<AudioEngine> getAudioEngine() { return audioInstance; }
 		std::shared_ptr<EventEngine> getEventEngine() { return eventInstance; }
 		std::shared_ptr<PhysicsEngine> getPhysicsEngine() { return physicsInstance; }
+        std::shared_ptr<MyEngineSystem> getMyEngineSystem() { return myEngineSystemInstance; }
 };
 
 typedef XCube2Engine XEngine;

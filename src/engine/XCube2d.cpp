@@ -63,6 +63,12 @@ XCube2Engine::XCube2Engine() {
 #endif
 
 	physicsInstance = std::shared_ptr<PhysicsEngine>(new PhysicsEngine());
+
+    myEngineSystemInstance = std::shared_ptr<MyEngineSystem>(new MyEngineSystem());
+
+#ifdef __DEBUG
+    debug("MyEngineSystem() successful");
+#endif
 }
 
 XCube2Engine::~XCube2Engine() {
