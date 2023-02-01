@@ -18,29 +18,26 @@ The project is configured to be developed on Windows, so it only includes Window
 
 To build, you will need:
 
-* [CMake](https://cmake.org/download/) 3.6+ (Download binary Windows win64-x64 ZIP)
-* Visual Studio 2019
+* [CMake](https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2-windows-x86_64.zip) 3.24+
+* Visual Studio 2022
 
 1. Download this repository by clicking "Clone or download" -> Download zip.
 2. Extract the zip file and rename `xcube2d-master` to `xcube`.
 
-Open the command line (via Git Bash ("git for windows")):
+Open the command line (via [Git Bash](https://gitforwindows.org/) (git for windows")):
 
 ```
 cd xcube2d
 mkdir build
 cd build
 
-// Note: if running on Uni machines, it's /c/Program\ Files/CMake/bin/cmake rather than just cmake
-// Note: if running on own machine, check where you downloaded cmake to and point there
-
-cmake .. -G "Visual Studio 16 2019"
+PATH_WHERE_DOWNLOADED_CMAKE/bin/cmake.exe .. -G "Visual Studio 17 2022"
 
 ```
 
 After this, a ".sln" will be generated in `build/`.
 
-1. Open the ".sln" file with Visual Studio 2019.
+1. Open the ".sln" file with Visual Studio 2012.
 2. Right click on MyGame in project explorer and select as startup project.
 3. Right click on MyGame again and select Properties.
 4. In the properties window, Linker -> System and change SubSystem to Console.
