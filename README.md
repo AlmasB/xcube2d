@@ -27,7 +27,7 @@ To build, you will need:
 Open the command line (via [Git Bash](https://gitforwindows.org/) (git for windows")):
 
 ```
-cd xcube2d
+cd xcube
 mkdir build
 cd build
 
@@ -37,7 +37,7 @@ PATH_WHERE_DOWNLOADED_CMAKE/bin/cmake.exe .. -G "Visual Studio 17 2022"
 
 After this, a ".sln" will be generated in `build/`.
 
-1. Open the ".sln" file with Visual Studio 2012.
+1. Open the ".sln" file with Visual Studio 2022.
 2. Right click on MyGame in project explorer and select as startup project.
 3. Right click on MyGame again and select Properties.
 4. In the properties window, Linker -> System and change SubSystem to Console.
